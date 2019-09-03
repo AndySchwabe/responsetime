@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Parameters:
+  Environment:
+    AllowedValues:
+    - dev
+    - prod
+    Default: dev
+    Type: String
+  Stack:
+    AllowedValues:
+    - blue
+    - green
+    Default: blue
+    Type: String
+Globals:
+  Function:
+    Timeout: 3
+Resources:
+  HomeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: python3.7
+      Handler: home.lambda_handler
+      CodeUri: s3://responsetime-dev-sam-us-east-2/6eee926734778ffc8e644c892d5ab97f
+      Events:
+        HomeApi:
+          Type: Api
+          Properties:
+            Path: /home
+            Method: GET
+  FrontEndBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
+    Properties:
+      BucketName:
+        Fn::Sub: responsetime-${Environment}-${Stack}-frontend-${AWS::Region}
+      VersioningConfiguration:
+        Status: Enabled
+  BackEndBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
+    Properties:
+      BucketName:
+        Fn::Sub: responsetime-${Environment}-${Stack}-backend-${AWS::Region}
+      VersioningConfiguration:
+        Status: Enabled
+Outputs:
+  HomeApi:
+    Description: API Gateway endpoint URL for Prod stage for Hello World function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/home
+  HomeFunction:
+    Description: Hello World Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - HomeFunction
+      - Arn
+  HomeFunctionIamRole:
+    Description: Implicit IAM Role created for Hello World function
+    Value:
+      Fn::GetAtt:
+      - HomeFunctionRole
+      - Arn
