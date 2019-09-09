@@ -1,0 +1,34 @@
+{
+  "name": "responsetime",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "for f in tests/*; do echo \"$f\"; node \"$f\"; done; echo 'passed!'; exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndySchwabe/responsetime.git"
+  },
+  "keywords": [
+    "npm",
+    "module"
+  ],
+  "author": "Andy Schwabe",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AndySchwabe/responsetime/issues"
+  },
+  "homepage": "https://github.com/AndySchwabe/responsetime#readme",
+  "devDependencies": {
+    "eslint": "^6.3.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  }
+}

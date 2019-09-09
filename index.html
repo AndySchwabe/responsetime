@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+
+<body>
+
+    <p>Enter URL for the site you want to test in the field, then click "Submit URL" to receive the respone time for the
+        site entered.</p>
+
+    <div class="urlForm">
+        <form name="URLField" action="">
+            <label for="inputURL">URL To Test: </label>
+            <input type="text" id="inputURL" name="inputURL" class="inputURL">
+            <input type="button" class="urlSubmit" value="Submit URL" onclick="checkResponseTime();">
+        </form>
+    </div>
+
+    <p id="value"></p>
+
+</body>
+
+<script type="text/javascript" src="js/index.js"></script>
+
+</html>
