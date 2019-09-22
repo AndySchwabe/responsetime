@@ -1,5 +1,11 @@
 function checkResponseTime () {
-  var inputURL = document.getElementById('inputURL').value
+  // const inputURL = document.getElementById('inputURL').value
+  const Http = new XMLHttpRequest()
+  const url = 'https://responsetime.net/api'
+  Http.open('GET', url)
+  Http.send()
 
-  document.getElementById('value').innerHTML = inputURL
+  Http.onreadystatechange = (e) => {
+    document.getElementById('value').innerHTML = Http.responseText
+  }
 }
