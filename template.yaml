@@ -20,26 +20,51 @@ Globals:
     Timeout: 3
 
 Resources:
-  HomeFunction:
+  ApiFunction:
     Type: AWS::Serverless::Function
     Properties:
       Runtime: go1.x
-      Handler: home.lambda_handler
-      CodeUri: home/
+      Handler: main
+      CodeUri: api/
       Events:
-        HomeApi:
-            Type: Api
-            Properties:
-                Path: /home
-                Method: GET
+        Api:
+          Type: Api
+          Properties:
+            Path: /api
+            Method: get
 
   FrontEndBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Delete
     Properties:
-      BucketName: !Sub responsetime-${Environment}-${Stack}-frontend-${AWS::Region}
+      BucketName: !Sub ${Stack}.${Environment}.responsetime.net
       VersioningConfiguration:
         Status: Enabled
+      WebsiteConfiguration:
+        ErrorDocument: error.html
+        IndexDocument: index.html
+
+  FrontEndBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: String
+      PolicyDocument: !Sub |
+        {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Sid": "PublicReadGetObject",
+                    "Effect": "Allow",
+                    "Principal": "*",
+                    "Action": [
+                        "s3:GetObject"
+                    ],
+                    "Resource": [
+                      "arn:aws:s3:::${FrontEndBucket}/*"
+                    ]
+                }
+            ]
+        }
 
   BackEndBucket:
     Type: AWS::S3::Bucket
@@ -50,12 +75,12 @@ Resources:
         Status: Enabled
 
 Outputs:
-  HomeApi:
+  ApiURL:
     Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/home"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Api"
   HomeFunction:
     Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HomeFunction.Arn
+    Value: !GetAtt ApiFunction.Arn
   HomeFunctionIamRole:
     Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HomeFunctionRole.Arn
+    Value: !GetAtt ApiFunctionRole.Arn
