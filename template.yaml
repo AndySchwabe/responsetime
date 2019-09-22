@@ -23,7 +23,7 @@ Resources:
   HomeFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Runtime: python3.7
+      Runtime: go1.x
       Handler: home.lambda_handler
       CodeUri: home/
       Events:
