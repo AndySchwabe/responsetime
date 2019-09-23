@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/AndySchwabe/responsetime/api/http"
+	"github.com/AndySchwabe/responsetime/http"
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
