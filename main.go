@@ -1,11 +1,13 @@
-package main
+package api
 
 import (
 	"context"
 	"fmt"
-	"github.com/AndySchwabe/responsetime_go/http"
-	"github.com/aws/aws-lambda-go/lambda"
+	"log"
 	"time"
+
+	"github.com/AndySchwabe/responsetime/http"
+	"github.com/aws/aws-lambda-go/lambda"
 )
 
 type MyEvent struct {
@@ -15,10 +17,12 @@ type MyEvent struct {
 func HandleRequest(ctx context.Context, name MyEvent) (string, error) {
 
 	start := time.Now()
-	status := http.GetStatusCode()
+	status := http.GetStatusCode("http://google.com")
 	end := time.Now()
 	result := http.ValidateStatusCode(status)
-
+	if !result {
+		log.Fatalf("Received %d", status)
+	}
 	elapsed := end.Sub(start)
 
 	fmt.Println(elapsed)
