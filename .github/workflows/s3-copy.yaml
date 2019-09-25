@@ -1,7 +1,7 @@
 name: Copy FrontEnd to S3
 on: [push]
 jobs:
-  cloudformation-linter:
+  s3-copy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
