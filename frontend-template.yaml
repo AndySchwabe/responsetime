@@ -32,7 +32,7 @@ Resources:
         Comment: !Sub CloudFront Origin Access Identity for responsetime's ${Environment} environment ${Stack} stack
 
   CloudFrontDistribution:
-    Type: AWS::CloudFront::Distribution
+    Type: AWS::CloudFront::dDistribution
     Properties:
       DistributionConfig:
         Aliases:
