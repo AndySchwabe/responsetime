@@ -13,3 +13,4 @@ jobs:
           BUCKET: blue.dev.responsetime.net
           ACCESS_KEY: asdf
           SECRET_KEY: jkl;
+          ENVIRONMENT: blue
