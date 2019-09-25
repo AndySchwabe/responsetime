@@ -1,0 +1,13 @@
+name: Copy FrontEnd to S3
+on: [push]
+jobs:
+  cloudformation-linter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: s3-copy
+        uses: andyschwabe/s3_copy@latest
+        env:
+          BUCKET: blue.dev.responsetime.net
