@@ -5,8 +5,8 @@
 |:----------------------|:--------|:--------|
 | [![ghactions-image][]][ghactions-site] | [![lic-image][]][lic-site] | [![rel-image][]][rel-site] |
 
-[ghactions-image]: https://github.com/{owner}/{repo}/workflows/{workflow_name}/badge.svg
-[ghactions-site]: https://github.com/{owner}/{repo}/actions
+[ghactions-image]: https://github.com/andyschwabe/responsetime/workflows/go-build/badge.svg
+[ghactions-site]: https://github.com/andyschwabe/responsetime/actions
 [lic-image]: https://img.shields.io/github/license/andyschwabe/responsetime.svg
 [lic-site]: https://opensource.org/licenses/GPL-3.0
 [rel-image]: https://img.shields.io/github/release/AndySchwabe/responsetime.svg
