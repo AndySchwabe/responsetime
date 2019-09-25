@@ -11,3 +11,5 @@ jobs:
         uses: andyschwabe/responsetime_deploy@master
         env:
           BUCKET: blue.dev.responsetime.net
+          ACCESS_KEY: asdf
+          SECRET_KEY: jkl;
