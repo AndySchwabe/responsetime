@@ -10,4 +10,4 @@ jobs:
       - name: puppet-lint
         uses: scottbrenner/cfn-lint-action@master
         with:
-          args: template.yaml
+          args: "*template.yaml"

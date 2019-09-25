@@ -10,10 +10,12 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
+// MyEvent Lambda Event struct
 type MyEvent struct {
 	Name string `json:"name"`
 }
 
+// HandleRequest Lambda Handler
 func HandleRequest(ctx context.Context, name MyEvent) (string, error) {
 
 	start := time.Now()
