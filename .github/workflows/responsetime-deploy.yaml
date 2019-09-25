@@ -7,8 +7,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
-      - name: responsetime_deploy
-        uses: andyschwabe/responsetime_deploy@master
+      - name: responsetime-deploy
+        uses: andyschwabe/responsetime-deploy@master
         env:
           BUCKET: blue.dev.responsetime.net
           ACCESS_KEY: asdf
