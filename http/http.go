@@ -20,9 +20,9 @@ func GetStatusCode(userURL string) int {
 
 // ValidateStatusCode Validates a passed HTTP status code
 func ValidateStatusCode(statuscode int) bool {
+	status := false
 	if statuscode == 200 {
-		return true
-	} else {
-		return false
+		status = true
 	}
+	return status
 }
