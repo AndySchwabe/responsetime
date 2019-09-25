@@ -34,7 +34,7 @@ Resources:
             Method: get
 
   BackEndBucket:
-    Type: AWS::S3::Bucketa
+    Type: AWS::S3::Bucket
     DeletionPolicy: Delete
     Properties:
       BucketName: !Sub responsetime-${Environment}-${Stack}-backend-${AWS::Region}
