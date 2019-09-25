@@ -1,13 +1,13 @@
-name: Copy FrontEnd to S3
+name: ResponseTime Deploy
 on: [push]
 jobs:
-  s3-copy:
+  responsetime-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v1
 
-      - name: s3-copy
-        uses: andyschwabe/s3_copy@latest
+      - name: responsetime_deploy
+        uses: andyschwabe/responsetime_deploy@master
         env:
           BUCKET: blue.dev.responsetime.net
