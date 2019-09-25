@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  Environment:
+    AllowedValues:
+      - dev
+      - prod
+    Default: dev
+    Type: String
+  Stack:
+    AllowedValues:
+      - blue
+      - green
+    Default: blue
+    Type: String
+
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: go1.x
+      Handler: main
+      CodeUri: api/
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /api
+            Method: get
+
+  BackEndBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
+    Properties:
+      BucketName: !Sub responsetime-${Environment}-${Stack}-backend-${AWS::Region}
+      VersioningConfiguration:
+        Status: Enabled
+
+Outputs:
+  ApiURL:
+    Description: "API Gateway endpoint URL for Prod stage for Api function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/api"
+  ApiFunction:
+    Description: "Api Lambda Function ARN"
+    Value: !GetAtt ApiFunction.Arn
+  ApiFunctionIamRole:
+    Description: "Implicit IAM Role created for Api function"
+    Value: !GetAtt ApiFunctionRole.Arn
+  BackEndBucket:
+    Description: "Bucket for backend data storage"
+    Value: !Ref BackEndBucket

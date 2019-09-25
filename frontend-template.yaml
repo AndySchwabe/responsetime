@@ -1,0 +1,148 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  AcmCertificateArn:
+    Type: String
+  Environment:
+    AllowedValues:
+      - dev
+      - prod
+    Default: dev
+    Type: String
+  Stack:
+    AllowedValues:
+      - blue
+      - green
+    Default: blue
+    Type: String
+
+Resources:
+  FrontEndBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
+    Properties:
+      BucketName: !Sub ${Stack}.${Environment}.responsetime.net
+      VersioningConfiguration:
+        Status: Enabled
+
+  CloudFrontOriginAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: !Sub CloudFront Origin Access Identity for responsetime's ${Environment} environment ${Stack} stack
+
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Aliases:
+          - !Sub ${Stack}.${Environment}.responsetime.net
+        Comment: !Sub CloudFront Distribution for responsetime's ${Environment} environment ${Stack} stack
+        CustomErrorResponses:
+          -
+            ErrorCachingMinTTL: 1
+            ErrorCode: 400
+            ResponseCode: 400
+            ResponsePagePath: /error/400.html
+          -
+            ErrorCachingMinTTL: 1
+            ErrorCode: 403
+            ResponseCode: 403
+            ResponsePagePath: /error/403.html
+          -
+            ErrorCachingMinTTL: 1
+            ErrorCode: 404
+            ResponseCode: 404
+            ResponsePagePath: /error/404.html
+          -
+            ErrorCachingMinTTL: 1
+            ErrorCode: 405
+            ResponseCode: 405
+            ResponsePagePath: /error/405.html
+          -
+            ErrorCachingMinTTL: 1
+            ErrorCode: 414
+            ResponseCode: 414
+            ResponsePagePath: /error/414.html
+          -
+            ErrorCachingMinTTL: 1
+            ErrorCode: 416
+            ResponseCode: 416
+            ResponsePagePath: /error/416.html
+          -
+            ErrorCachingMinTTL: 1
+            ErrorCode: 500
+            ResponseCode: 500
+            ResponsePagePath: /error/500.html
+          -
+            ErrorCachingMinTTL: 1
+            ErrorCode: 501
+            ResponseCode: 501
+            ResponsePagePath: /error/501.html
+          -
+            ErrorCachingMinTTL: 1
+            ErrorCode: 502
+            ResponseCode: 502
+            ResponsePagePath: /error/502.html
+          -
+            ErrorCachingMinTTL: 1
+            ErrorCode: 503
+            ResponseCode: 503
+            ResponsePagePath: /error/503.html
+          -
+            ErrorCachingMinTTL: 1
+            ErrorCode: 504
+            ResponseCode: 504
+            ResponsePagePath: /error/504.html
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+          CachedMethods:
+            - GET
+            - HEAD
+          Compress: False
+          DefaultTTL: 86400
+          ForwardedValues:
+            Cookies:
+              Forward: none
+            QueryString: false
+          MaxTTL: 2592000
+          MinTTL: 0
+          #PathPattern: '*'
+          SmoothStreaming: false
+          TargetOriginId: !Sub S3-${Stack}.${Environment}.responsetime.net
+          ViewerProtocolPolicy: redirect-to-https
+        DefaultRootObject: index.html
+        Enabled: True
+        HttpVersion: http2
+        IPV6Enabled: False
+        Origins:
+          -
+            DomainName: !GetAtt [FrontEndBucket, DomainName]
+            Id: !Sub S3-${Stack}.${Environment}.responsetime.net
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}
+        PriceClass: PriceClass_100
+        ViewerCertificate:
+          AcmCertificateArn: !Ref AcmCertificateArn
+          MinimumProtocolVersion: TLSv1.2_2018
+          SslSupportMethod: sni-only
+  # FrontEndUrl:
+  #   Type: AWS::Route53::RecordSet
+  #   Properties:
+  #     AliasTarget:
+  #       HostedZoneId:
+  #       DNSName:
+  #     HostedZoneId:
+  #     Name: !Sub ${Stack}.${Environment}.responsetime.net
+  #     Type: CNAME
+
+
+Outputs:
+  FrontEndBucketName:
+    Description: "Bucket for frontend website hosting"
+    Value: !Ref FrontEndBucket
+  FrontEndBucketWebsiteUrl:
+    Description: "Website Url for frontend website hosting"
+    Value: !GetAtt [FrontEndBucket, WebsiteURL]
