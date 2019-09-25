@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// GetStatusCode Makes a request to a passed URL
 func GetStatusCode(userURL string) int {
 	response, responseErr := http.Get(userURL)
 	if responseErr != nil {
@@ -17,6 +18,7 @@ func GetStatusCode(userURL string) int {
 	return response.StatusCode
 }
 
+// ValidateStatusCode Validates a passed HTTP status code
 func ValidateStatusCode(statuscode int) bool {
 	if statuscode == 200 {
 		return true
