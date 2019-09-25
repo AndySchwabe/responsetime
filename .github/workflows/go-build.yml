@@ -1,4 +1,4 @@
-name: Golang Build
+name: build
 on: [push]
 jobs:
   build:
