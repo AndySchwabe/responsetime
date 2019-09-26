@@ -18,11 +18,11 @@ install: updateFrontendS3 uploadFrontendS3 deployFrontend
 
 .PHONY: createCreds
 createCreds:
-	mkdir -p /root/.aws/
-	touch /root/.aws/credentials
-	echo "[rtdeploy]" >> /root/.aws/credentials
-	@echo "aws_access_key_id=$(ACCESSKEY)" >> /root/.aws/credentials
-	@echo "aws_secret_access_key=$(SECRETKEY)" >> /root/.aws/credentials
+	mkdir -p ~/.aws/
+	touch ~/.aws/credentials
+	echo "[rtdeploy]" >> ~/.aws/credentials
+	@echo "aws_access_key_id=$(ACCESSKEY)" >> ~/.aws/credentials
+	@echo "aws_secret_access_key=$(SECRETKEY)" >> ~/.aws/credentials
 
 .PHONY: testCreds
 testCreds:
