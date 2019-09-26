@@ -2,6 +2,8 @@ STACK := $(STACK)
 ENVIRONMENT := $(ENVIRONMENT)
 ACMCERTIFICATEARN := $(ACMCERTIFICATEARN)
 REGION := $(REGION)
+ACCESSKEY := $(ACCESSKEY)
+SECRETKEY := $(SECRETKEY)
 
 .PHONY: all
 all:
@@ -14,6 +16,13 @@ clean:
 .PHONY: install
 install:
 	uploadFrontendS3 deployFrontend
+
+.PHONY: createCreds
+createCreds:
+	touch ~/.aws/credentials
+	echo "rtdeploy" >> ~/.aws/credentials
+	echo "aws_access_key_id=$(ACCESSKEY)"
+	echo "aws_secret_access_key=$(SECRETKEY)"
 
 .PHONY: deployFrontendS3
 deployFrontendS3:

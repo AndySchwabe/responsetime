@@ -13,7 +13,11 @@ jobs:
       - name: Deploy
         uses: andyschwabe/responsetime-deploy@master
         env:
+          ACCESSKEY: access
           ACMCERTIFICATEARN: blue.dev.responsetime.net
           ENVIRONMENT: dev
           REGION: us-east-2
+          SECRETKEY: secret
           STACK: green
+        with:
+          args: "createCreds"
