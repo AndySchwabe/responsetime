@@ -19,7 +19,6 @@ install:
 deployFrontendS3:
 	aws cloudformation deploy --template-file frontend-s3-template.yaml --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --region $(REGION) --profile rtdeploy
 	aws cloudformation wait stack-create-complete --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
-	aws cloudformation wait stack-update-complete --stack-name responsetime-frontend-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
 
 .PHONY: teardownFrontendS3
 teardownFrontendS3:
@@ -34,7 +33,6 @@ uploadFrontendS3:
 deployFrontend:
 	aws cloudformation deploy --template-file frontend-template.yaml --stack-name responsetime-frontend-$(ENVIRONMENT)-$(STACK) --parameter-overrides Stack=$(STACK) Environment=$(ENVIRONMENT) AcmCertificateArn=$(ACMCERTIFICATEARN) --region $(REGION) --profile rtdeploy
 	aws cloudformation wait stack-create-complete --stack-name responsetime-frontend-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
-	aws cloudformation wait stack-update-complete --stack-name responsetime-frontend-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
 
 .PHONY: teardownFrontend
 teardownFrontend:
@@ -45,7 +43,6 @@ teardownFrontend:
 deployBackend:
 	aws cloudformation deploy --template-file frontend-template.yaml --stack-name responsetime-backend-$(ENVIRONMENT)-$(STACK) --parameter-overrides Stack=$(STACK) Environment=$(ENVIRONMENT) --region $(REGION) --profile rtdeploy
 	aws cloudformation wait stack-create-complete --stack-name responsetime-backend-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
-	aws cloudformation wait stack-update-complete --stack-name responsetime-backend-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
 
 .PHONY: teardownBackend
 teardownBackend:
