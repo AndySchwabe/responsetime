@@ -21,10 +21,13 @@ install:
 createCreds:
 	mkdir -p ~/.aws/
 	touch ~/.aws/credentials
-	echo "rtdeploy" >> ~/.aws/credentials
+	echo "[rtdeploy]" >> ~/.aws/credentials
 	@echo "aws_access_key_id=$(ACCESSKEY)" >> ~/.aws/credentials
 	@echo "aws_secret_access_key=$(SECRETKEY)" >> ~/.aws/credentials
-	cat ~/.aws/credentials
+
+.PHONY: testCreds
+testCreds:
+	aws cloudformation list-stacks --region $(REGION) --profile rtdeploy
 
 .PHONY: deployFrontendS3
 deployFrontendS3:

@@ -13,11 +13,11 @@ jobs:
       - name: Deploy
         uses: andyschwabe/responsetime-deploy@master
         env:
-          ACCESSKEY: access
-          ACMCERTIFICATEARN: green.dev.responsetime.net
+          ACCESSKEY: ${{secrets.RTDEV_AWS_ACCESS}}
+          ACMCERTIFICATEARN: arn:aws:acm:us-east-1:628657941405:certificate/c25fe95f-d9b7-46d4-b19f-0e15832dc5ca
           ENVIRONMENT: dev
           REGION: us-east-2
-          SECRETKEY: secret
+          SECRETKEY: ${{secrets.RTDEV_AWS_SECRET}}
           STACK: green
         with:
-          args: "createCreds"
+          args: "createCreds testCreds"
