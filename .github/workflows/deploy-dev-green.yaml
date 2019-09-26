@@ -16,6 +16,7 @@ jobs:
           ACCESSKEY: ${{secrets.RTDEV_AWS_ACCESS}}
           ACMCERTIFICATEARN: arn:aws:acm:us-east-1:628657941405:certificate/c25fe95f-d9b7-46d4-b19f-0e15832dc5ca
           ENVIRONMENT: dev
+          HOSTEDZONEID: Z13FENV9QCX5IY
           REGION: us-east-2
           SECRETKEY: ${{secrets.RTDEV_AWS_SECRET}}
           STACK: green
