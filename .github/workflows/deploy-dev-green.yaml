@@ -21,4 +21,4 @@ jobs:
           SECRETKEY: ${{secrets.RTDEV_AWS_SECRET}}
           STACK: green
         with:
-          args: "createCreds testCreds"
+          args: "all"
