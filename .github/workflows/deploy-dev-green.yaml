@@ -2,7 +2,7 @@ name: deploy-dev-green
 on:
   push:
     branches:
-      - 'deploy/dev-geen'
+      - deploy/dev-green
 jobs:
   responsetime-deploy:
     runs-on: ubuntu-latest
