@@ -16,12 +16,12 @@ clean:
 
 .PHONY: install
 install:
-	uploadFrontendS3 deployFrontend
+	deployFrontendS3 uploadFrontendS3 deployFrontend
 
 .PHONY: createCreds
 createCreds:
-	mkdir -p ~/.aws/
-	touch ~/.aws/credentials
+	mkdir -p /root/.aws/
+	touch /root/.aws/credentials
 	echo "[rtdeploy]" >> ~/.aws/credentials
 	@echo "aws_access_key_id=$(ACCESSKEY)" >> ~/.aws/credentials
 	@echo "aws_secret_access_key=$(SECRETKEY)" >> ~/.aws/credentials
@@ -34,6 +34,11 @@ testCreds:
 deployFrontendS3:
 	aws cloudformation deploy --template-file frontend-s3-template.yaml --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --parameter-overrides Stack=$(STACK) Environment=$(ENVIRONMENT) --region $(REGION) --profile rtdeploy
 	aws cloudformation wait stack-create-complete --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
+
+.PHONY: updateFrontendS3
+updateFrontendS3:
+	aws cloudformation deploy --template-file frontend-s3-template.yaml --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --parameter-overrides Stack=$(STACK) Environment=$(ENVIRONMENT) --region $(REGION) --profile rtdeploy
+	aws cloudformation wait stack-update-complete --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
 
 .PHONY: teardownFrontendS3
 teardownFrontendS3:
