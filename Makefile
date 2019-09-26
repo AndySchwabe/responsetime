@@ -11,12 +11,10 @@ all: createCreds clean install
 .PHONY: all
 
 .PHONY: clean
-clean:
-	teardownFrontend
+clean: teardownFrontend
 
 .PHONY: install
-install:
-	deployFrontendS3 uploadFrontendS3 deployFrontend
+install: updateFrontendS3 uploadFrontendS3 deployFrontend
 
 .PHONY: createCreds
 createCreds:
@@ -37,7 +35,7 @@ deployFrontendS3:
 
 .PHONY: updateFrontendS3
 updateFrontendS3:
-	aws cloudformation deploy --template-file frontend-s3-template.yaml --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --parameter-overrides Stack=$(STACK) Environment=$(ENVIRONMENT) --region $(REGION) --profile rtdeploy
+	aws cloudformation update-stack --template-body frontend-s3-template.yaml --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --parameter  ParameterKey=Stack,ParameterValue=$(STACK) ParameterKey=Environment,ParameterValue=$(ENVIRONMENT) --region $(REGION) --profile rtdeploy
 	aws cloudformation wait stack-update-complete --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
 
 .PHONY: teardownFrontendS3
