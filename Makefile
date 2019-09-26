@@ -25,6 +25,10 @@ createCreds:
 	@echo "aws_access_key_id=$(ACCESSKEY)" >> ~/.aws/credentials
 	@echo "aws_secret_access_key=$(SECRETKEY)" >> ~/.aws/credentials
 
+.PHONY: testCreds
+testCreds:
+	aws cloudformation list-stacks --region $(REGION) --profile rtdeploy
+
 .PHONY: deployFrontendS3
 deployFrontendS3:
 	aws cloudformation deploy --template-file frontend-s3-template.yaml --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --region $(REGION) --profile rtdeploy
