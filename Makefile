@@ -5,9 +5,9 @@ REGION := $(REGION)
 ACCESSKEY := $(ACCESSKEY)
 SECRETKEY := $(SECRETKEY)
 
+
+all: createCreds clean install
 .PHONY: all
-all:
-	clean install
 
 .PHONY: clean
 clean:
