@@ -13,18 +13,10 @@ Parameters:
     AllowedValues:
       - blue
       - green
-    Default: blue
+    Default: green
     Type: String
 
 Resources:
-  FrontEndBucket:
-    Type: AWS::S3::Bucket
-    DeletionPolicy: Delete
-    Properties:
-      BucketName: !Sub ${Stack}.${Environment}.responsetime.net
-      VersioningConfiguration:
-        Status: Enabled
-
   CloudFrontOriginAccessIdentity:
     Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
     Properties:
@@ -119,7 +111,7 @@ Resources:
         IPV6Enabled: False
         Origins:
           -
-            DomainName: !GetAtt [FrontEndBucket, DomainName]
+            DomainName: !Sub ${Stack}.${Environment}.responsetime.net.s3.amazonaws.com
             Id: !Sub S3-${Stack}.${Environment}.responsetime.net
             S3OriginConfig:
               OriginAccessIdentity: !Sub origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}
@@ -137,12 +129,3 @@ Resources:
   #     HostedZoneId:
   #     Name: !Sub ${Stack}.${Environment}.responsetime.net
   #     Type: CNAME
-
-
-Outputs:
-  FrontEndBucketName:
-    Description: "Bucket for frontend website hosting"
-    Value: !Ref FrontEndBucket
-  FrontEndBucketWebsiteUrl:
-    Description: "Website Url for frontend website hosting"
-    Value: !GetAtt [FrontEndBucket, WebsiteURL]

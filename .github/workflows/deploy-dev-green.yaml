@@ -1,0 +1,23 @@
+name: deploy-dev-green
+on:
+  push:
+    branches:
+      - deploy/dev-geen
+jobs:
+  responsetime-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Deploy
+        uses: andyschwabe/responsetime-deploy@master
+        env:
+          ACCESSKEY: access
+          ACMCERTIFICATEARN: blue.dev.responsetime.net
+          ENVIRONMENT: dev
+          REGION: us-east-2
+          SECRETKEY: secret
+          STACK: green
+        with:
+          args: "createCreds"

@@ -7,6 +7,7 @@ function checkResponseTime () {
   Http.send()
 
   Http.onreadystatechange = (e) => {
+    document.getElementById('value1').innerHTML = window.location.href
     document.getElementById('value').innerHTML = Http.responseText
   }
 }
