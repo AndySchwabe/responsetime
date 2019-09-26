@@ -1,8 +1,8 @@
-name: deploy-dev-green
+name: deploy-prod-blue
 on:
   push:
     branches:
-      - deploy/dev-green
+      - deploy/prod-blue
 jobs:
   responsetime-deploy:
     runs-on: ubuntu-latest
@@ -14,10 +14,10 @@ jobs:
         uses: andyschwabe/responsetime-deploy@master
         env:
           ACCESSKEY: access
-          ACMCERTIFICATEARN: green.dev.responsetime.net
-          ENVIRONMENT: dev
+          ACMCERTIFICATEARN: prod.blue.responsetime.net
+          ENVIRONMENT: prod
           REGION: us-east-2
           SECRETKEY: secret
-          STACK: green
+          STACK: blue
         with:
           args: "createCreds"
