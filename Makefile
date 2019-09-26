@@ -19,6 +19,7 @@ install:
 
 .PHONY: createCreds
 createCreds:
+	mkdir -p ~/.aws/credentials
 	touch ~/.aws/credentials
 	echo "rtdeploy" >> ~/.aws/credentials
 	echo "aws_access_key_id=$(ACCESSKEY)"
