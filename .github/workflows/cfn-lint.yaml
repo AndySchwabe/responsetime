@@ -1,4 +1,4 @@
-name: Lint CloudFormation Templates
+name: cfn-lint
 on:
   push:
     paths:
