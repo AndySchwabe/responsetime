@@ -16,6 +16,7 @@ jobs:
           ACCESSKEY: ${{secrets.RTPROD_AWS_ACCESS}}
           ACMCERTIFICATEARN: prod.blue.responsetime.net
           ENVIRONMENT: prod
+          HOSTEDZONEID: Z2JEP63TRLSULI
           REGION: us-east-2
           SECRETKEY: ${{secrets.RTPROD_AWS_SECRET}}
           STACK: blue
