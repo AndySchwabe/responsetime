@@ -1,5 +1,6 @@
 STACK := $(STACK)
 ENVIRONMENT := $(ENVIRONMENT)
+ACMCERTIFICATEARN := $(ACMCERTIFICATEARN)
 REGION := $(REGION)
 
 .PHONY: all
@@ -8,28 +9,42 @@ all:
 
 .PHONY: clean
 clean:
-	teardownfrontend
+	teardownFrontend
 
 .PHONY: install
 install:
-	uploadfrontend deployfrontends
+	uploadFrontendS3 deployFrontend
 
-.PHONY: deployfrontends3
-deployfrontends3:
+.PHONY: deployFrontendS3
+deployFrontendS3:
 	aws cloudformation deploy --template-file frontend-s3-template.yaml --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --region $(REGION) --profile rtdeploy
+	aws cloudformation wait stack-create-complete --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
 
-.PHONY: uploadfrontend
-uploadfrontend:
+.PHONY: teardownFrontendS3
+teardownFrontendS3:
+	aws cloudformation delete-stack --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --region $(REGION) --profile rtdeploy
+	aws cloudformation wait stack-delete-complete --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
+
+.PHONY: uploadFrontendS3
+uploadFrontendS3:
 	aws s3 cp frontend/ s3://$(STACK).$(ENVIRONMENT).responsetime.net --recursive --region $(REGION) --profile rtdeploy
 
-.PHONY: deployfrontend
-deployfrontend:
-	aws cloudformation deploy --template-file frontend-s3-template.yaml --stack-name responsetime-frontend-$(ENVIRONMENT)-$(STACK) --region $(REGION) --profile rtdeploy
+.PHONY: deployFrontend
+deployFrontend:
+	aws cloudformation deploy --template-file frontend-template.yaml --stack-name responsetime-frontend-$(ENVIRONMENT)-$(STACK) --parameter-overrides Stack=$(STACK) Environment=$(ENVIRONMENT) AcmCertificateArn=$(ACMCERTIFICATEARN) --region $(REGION) --profile rtdeploy
+	aws cloudformation wait stack-create-complete --stack-name responsetime-frontend-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
 
-.PHONY: teardownfrontends3
-teardownfrontends3:
-	aws cloudformation delete-stack --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --region $(REGION) --profile rtdeploy
-
-.PHONY: teardownfrontend
-teardownfrontend:
+.PHONY: teardownFrontend
+teardownFrontend:
 	aws cloudformation delete-stack --stack-name responsetime-frontend-$(ENVIRONMENT)-$(STACK) --region $(REGION) --profile rtdeploy
+	aws cloudformation wait stack-delete-complete --stack-name responsetime-frontend-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
+
+.PHONY: deployBackend
+deployBackend:
+	aws cloudformation deploy --template-file frontend-template.yaml --stack-name responsetime-backend-$(ENVIRONMENT)-$(STACK) --parameter-overrides Stack=$(STACK) Environment=$(ENVIRONMENT) --region $(REGION) --profile rtdeploy
+	aws cloudformation wait stack-create-complete --stack-name responsetime-backend-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
+
+.PHONY: teardownBackend
+teardownBackend:
+	aws cloudformation delete-stack --stack-name responsetime-backend-$(ENVIRONMENT)-$(STACK) --region $(REGION) --profile rtdeploy
+	aws cloudformation wait stack-delete-complete --stack-name responsetime-backend-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
