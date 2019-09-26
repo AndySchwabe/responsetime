@@ -22,8 +22,8 @@ createCreds:
 	mkdir -p ~/.aws/
 	touch ~/.aws/credentials
 	echo "rtdeploy" >> ~/.aws/credentials
-	@echo "aws_access_key_id=$(ACCESSKEY)"
-	@echo "aws_secret_access_key=$(SECRETKEY)"
+	@echo "aws_access_key_id=$(ACCESSKEY)" >> ~/.aws/credentials
+	@echo "aws_secret_access_key=$(SECRETKEY)" >> ~/.aws/credentials
 
 .PHONY: deployFrontendS3
 deployFrontendS3:
