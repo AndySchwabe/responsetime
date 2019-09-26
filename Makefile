@@ -1,9 +1,10 @@
-STACK := $(STACK)
-ENVIRONMENT := $(ENVIRONMENT)
-ACMCERTIFICATEARN := $(ACMCERTIFICATEARN)
-REGION := $(REGION)
 ACCESSKEY := $(ACCESSKEY)
+ACMCERTIFICATEARN := $(ACMCERTIFICATEARN)
+ENVIRONMENT := $(ENVIRONMENT)
+HOSTEDZONEID := $(HOSTEDZONEID)
+REGION := $(REGION)
 SECRETKEY := $(SECRETKEY)
+STACK := $(STACK)
 
 
 all: createCreds clean install
@@ -31,7 +32,7 @@ testCreds:
 
 .PHONY: deployFrontendS3
 deployFrontendS3:
-	aws cloudformation deploy --template-file frontend-s3-template.yaml --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --region $(REGION) --profile rtdeploy
+	aws cloudformation deploy --template-file frontend-s3-template.yaml --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --parameter-overrides Stack=$(STACK) Environment=$(ENVIRONMENT) --region $(REGION) --profile rtdeploy
 	aws cloudformation wait stack-create-complete --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
 
 .PHONY: teardownFrontendS3
@@ -45,7 +46,7 @@ uploadFrontendS3:
 
 .PHONY: deployFrontend
 deployFrontend:
-	aws cloudformation deploy --template-file frontend-template.yaml --stack-name responsetime-frontend-$(ENVIRONMENT)-$(STACK) --parameter-overrides Stack=$(STACK) Environment=$(ENVIRONMENT) AcmCertificateArn=$(ACMCERTIFICATEARN) --region $(REGION) --profile rtdeploy
+	aws cloudformation deploy --template-file frontend-template.yaml --stack-name responsetime-frontend-$(ENVIRONMENT)-$(STACK) --parameter-overrides Stack=$(STACK) Environment=$(ENVIRONMENT) AcmCertificateArn=$(ACMCERTIFICATEARN) HostedZoneId=$(HOSTEDZONEID) --region $(REGION) --profile rtdeploy
 	aws cloudformation wait stack-create-complete --stack-name responsetime-frontend-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
 
 .PHONY: teardownFrontend
