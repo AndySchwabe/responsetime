@@ -24,6 +24,7 @@ createCreds:
 	echo "rtdeploy" >> ~/.aws/credentials
 	@echo "aws_access_key_id=$(ACCESSKEY)" >> ~/.aws/credentials
 	@echo "aws_secret_access_key=$(SECRETKEY)" >> ~/.aws/credentials
+	cat ~/.aws/credentials
 
 .PHONY: deployFrontendS3
 deployFrontendS3:
