@@ -75,18 +75,10 @@ teardownBackend:
 
 .PHONY: gobuild
 gobuild:
-	pwd
-	ls -alh
-	mkdir -p ~/go/src/github.com/AndySchwabe/responsetime/
-	cd ~/go/src/github.com/AndySchwabe/responsetime/
-	pwd
-	ls -alh
-	export GOPATH='~/go/'
-	pwd
-	ls -alh
-	cp -R /github/home/* ~/go/src/github.com/AndySchwabe/responsetime/
-	pwd
-	ls -alh
+	mkdir -p /github/workspace/go/src/github.com/AndySchwabe/responsetime/
+	cd /github/workspace/go/src/github.com/AndySchwabe/responsetime/
+	export GOPATH='/github/workspace/go/'
+	cp -R /github/workspace/* /github/workspace/go/src/github.com/AndySchwabe/responsetime/
 	rm -rf go/
 	pwd
 	ls -alh
