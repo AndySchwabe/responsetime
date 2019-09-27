@@ -28,6 +28,12 @@ createCreds:
 testCreds:
 	aws cloudformation list-stacks --region $(REGION) --profile rtdeploy
 
+.PHONY: uploadCFTemplates
+prepareCFTemplates:
+	aws s3 cp frontend-s3-template.yaml s3://responsetime-$(ENVIRONMENT)-templates-$(REGION) --region $(REGION) --profile rtdeploy
+	aws s3 cp frontend-template.yaml s3://responsetime-$(ENVIRONMENT)-templates-$(REGION) --region $(REGION) --profile rtdeploy
+	aws s3 cp backend-template.yaml s3://responsetime-$(ENVIRONMENT)-templates-$(REGION) --region $(REGION) --profile rtdeploy
+
 .PHONY: deployFrontendS3
 deployFrontendS3:
 	aws cloudformation deploy --template-file frontend-s3-template.yaml --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --parameter-overrides Stack=$(STACK) Environment=$(ENVIRONMENT) --region $(REGION) --profile rtdeploy
@@ -35,7 +41,7 @@ deployFrontendS3:
 
 .PHONY: updateFrontendS3
 updateFrontendS3:
-	aws cloudformation update-stack --template-body frontend-s3-template.yaml --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --parameter  ParameterKey=Stack,ParameterValue=$(STACK) ParameterKey=Environment,ParameterValue=$(ENVIRONMENT) --region $(REGION) --profile rtdeploy
+	aws cloudformation update-stack --template-url s3://responsetime-$(ENVIRONMENT)-templates-$(REGION)/frontend-s3-template.yaml --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --parameter ParameterKey=Stack,ParameterValue=$(STACK) ParameterKey=Environment,ParameterValue=$(ENVIRONMENT) --region $(REGION) --profile rtdeploy
 	aws cloudformation wait stack-update-complete --stack-name responsetime-frontend-s3-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
 
 .PHONY: teardownFrontendS3
