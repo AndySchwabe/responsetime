@@ -14,7 +14,7 @@ all: createCreds clean install
 clean: teardownFrontend
 
 .PHONY: install
-install: updateFrontendS3 uploadFrontendS3 deployFrontend
+install: prepareCFTemplates updateFrontendS3 uploadFrontendS3 deployFrontend
 
 .PHONY: createCreds
 createCreds:
