@@ -77,8 +77,8 @@ teardownBackend:
 gobuild:
 	mkdir -p ~/go/src/github.com/AndySchwabe/responsetime/
 	export GOPATH='~/go/'
-	cp -R /github/home/ ~/go/src/github.com/AndySchwabe/responsetime/
-	rm -rf ~/go/src/github.com/AndySchwabe/responsetime/go/
+	cp -R /github/home/* ~/go/src/github.com/AndySchwabe/responsetime/
 	cd ~/go/src/github.com/AndySchwabe/responsetime/
+	rm -rf go/
 	go get -v -t -d ./...
 	go build -v .
