@@ -72,3 +72,8 @@ deployBackend:
 teardownBackend:
 	aws cloudformation delete-stack --stack-name responsetime-backend-$(ENVIRONMENT)-$(STACK) --region $(REGION) --profile rtdeploy
 	aws cloudformation wait stack-delete-complete --stack-name responsetime-backend-$(ENVIRONMENT)-$(STACK) --no-paginate --region $(REGION) --profile rtdeploy
+
+.PHONY: gobuild
+gobuild:
+	dep ensure
+	go build -v .
