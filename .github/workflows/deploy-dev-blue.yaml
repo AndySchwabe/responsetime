@@ -21,4 +21,4 @@ jobs:
           SECRETKEY: ${{secrets.RTDEV_AWS_SECRET}}
           STACK: blue
         with:
-          args: "all"
+          args: "gobuild"
