@@ -34,7 +34,7 @@ Resources:
           - Sid: Allow-OAI-Access-To-Bucket
             Effect: Allow
             Principal:
-              AWS: !Sub arn:aws:iam::cloudfront:user/${CloudFrontOriginAccessIdentity}
+              AWS: !Sub "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${CloudFrontOriginAccessIdentity}"
             Action: s3:GetObject
             Resource:
               - !Sub arn:aws:s3:::${Stack}.${Environment}.responsetime.net/*
