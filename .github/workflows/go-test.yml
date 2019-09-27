@@ -1,5 +1,9 @@
-name: test
-on: [push]
+name: go-test
+on:
+  push:
+    paths:
+    - "*.go"
+
 jobs:
   test:
     runs-on: ubuntu-latest

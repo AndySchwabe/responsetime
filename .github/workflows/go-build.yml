@@ -1,5 +1,9 @@
-name: build
-on: [push]
+name: go-build
+on:
+  push:
+    paths:
+    - "*.go"
+
 jobs:
   build:
     runs-on: ubuntu-latest

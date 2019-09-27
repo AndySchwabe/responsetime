@@ -1,5 +1,9 @@
-name: Lint CloudFormation Templates
-on: [push]
+name: cfn-lint
+on:
+  push:
+    paths:
+    - "*template.yaml"
+
 jobs:
   cloudformation-linter:
     runs-on: ubuntu-latest

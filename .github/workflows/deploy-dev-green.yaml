@@ -1,0 +1,24 @@
+name: deploy-dev-green
+on:
+  push:
+    branches:
+      - deploy/dev-green
+jobs:
+  responsetime-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Deploy
+        uses: andyschwabe/responsetime-deploy@master
+        env:
+          ACCESSKEY: ${{secrets.RTDEV_AWS_ACCESS}}
+          ACMCERTIFICATEARN: arn:aws:acm:us-east-1:628657941405:certificate/c25fe95f-d9b7-46d4-b19f-0e15832dc5ca
+          ENVIRONMENT: dev
+          HOSTEDZONEID: Z13FENV9QCX5IY
+          REGION: us-east-2
+          SECRETKEY: ${{secrets.RTDEV_AWS_SECRET}}
+          STACK: green
+        with:
+          args: "all"

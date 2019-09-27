@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  Environment:
+    AllowedValues:
+      - dev
+      - prod
+    Default: dev
+    Type: String
+  Stack:
+    AllowedValues:
+      - blue
+      - green
+    Default: green
+    Type: String
+
+Resources:
+  FrontEndBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
+    Properties:
+      BucketName: !Sub ${Stack}.${Environment}.responsetime.net
+      VersioningConfiguration:
+        Status: Enabled
+
+Outputs:
+  FrontEndBucketName:
+    Description: "Bucket for frontend website hosting"
+    Value: !Ref FrontEndBucket
+  FrontEndBucketDomainName:
+    Description: "Domain Name for frontend bucket"
+    Value: !GetAtt [FrontEndBucket, DomainName]

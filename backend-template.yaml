@@ -25,12 +25,16 @@ Resources:
     Properties:
       Runtime: go1.x
       Handler: main
-      CodeUri: api/
       Events:
-        Api:
+        RootHandler:
           Type: Api
           Properties:
-            Path: /api
+            Path: '/'
+            Method: get
+        ApiHandler:
+          Type: Api
+          Properties:
+            Path: '/api'
             Method: get
 
   BackEndBucket:

@@ -1,0 +1,24 @@
+name: deploy-prod-blue
+on:
+  push:
+    branches:
+      - deploy/prod-blue
+jobs:
+  responsetime-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Deploy
+        uses: andyschwabe/responsetime-deploy@master
+        env:
+          ACCESSKEY: ${{secrets.RTPROD_AWS_ACCESS}}
+          ACMCERTIFICATEARN: prod.blue.responsetime.net
+          ENVIRONMENT: prod
+          HOSTEDZONEID: Z2JEP63TRLSULI
+          REGION: us-east-2
+          SECRETKEY: ${{secrets.RTPROD_AWS_SECRET}}
+          STACK: blue
+        with:
+          args: "all"

@@ -1,0 +1,24 @@
+name: deploy-dev-blue
+on:
+  push:
+    branches:
+      - deploy/dev-blue
+jobs:
+  responsetime-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Deploy
+        uses: andyschwabe/responsetime-deploy@master
+        env:
+          ACCESSKEY: ${{secrets.RTDEV_AWS_ACCESS}}
+          ACMCERTIFICATEARN: arn:aws:acm:us-east-1:628657941405:certificate/682ad343-bf82-4e02-8500-2897612f95f3
+          ENVIRONMENT: dev
+          HOSTEDZONEID: Z13FENV9QCX5IY
+          REGION: us-east-2
+          SECRETKEY: ${{secrets.RTDEV_AWS_SECRET}}
+          STACK: blue
+        with:
+          args: "gobuild"
